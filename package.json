@@ -1,0 +1,19 @@
+{
+  "name": "stripe-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "shopify-api-node": "^3.8.1",
+    "shopify-node-api": "^1.5.2",
+    "stripe": "^8.194.0"
+  }
+}
