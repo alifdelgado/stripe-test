@@ -1,35 +1,35 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
-require('dotenv').config();
-const stripe = require('stripe')(process.env.STRIPE_SK);
-const PORT = process.env.PORT;
+const path = require('path');
+const stripe = require('stripe')(process.env.STRIPE_SECRET);
 const Shopify = require('shopify-api-node');
 const shopifyAPI = require('shopify-node-api');
+const PORT = process.env.PORT;
+const public = __dirname + '/public';
+// const shopifyConnector = new Shopify({
+//     shopName: process.env.SHOPIFY_SHOP,
+//     apiKey: process.env.SHOPIFY_KEY,
+//     password: process.env.SHOPIFY_PASS
+// });
 
-const shopifyConnector = new Shopify({
-    shopName: process.env.SHOPIFY_SHOP,
-    apiKey: process.env.SHOPIFY_KEY,
-    password: process.env.SHOPIFY_PASS
-});
-
-const shopifyAuth = new shopifyAPI({
-    shop: process.env.SHOPIFY_SHOP, // MYSHOP.myshopify.com
-    shopify_api_key: process.env.SHOPIFY_KEY, // Your API key
-    shopify_shared_secret: process.env.SHOPIFY_KEY_SECRET, // Your Shared Secret
-    shopify_scope: 'write_products',
-    redirect_uri: 'http://localhost:3000/finish_auth',
-    nonce: '' // you must provide a randomly selected value unique for each authorization request
-});
-
-app.use(express.static('public'));
+// const shopifyAuth = new shopifyAPI({
+//     shop: process.env.SHOPIFY_SHOP, // MYSHOP.myshopify.com
+//     shopify_api_key: process.env.SHOPIFY_KEY, // Your API key
+//     shopify_shared_secret: process.env.SHOPIFY_KEY_SECRET, // Your Shared Secret
+//     shopify_scope: 'write_products',
+//     redirect_uri: 'http://localhost:3000/finish_auth',
+//     nonce: '' // you must provide a randomly selected value unique for each authorization request
+// });
+app.use(express.static(public));
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send('it works!');
+    res.sendFile(path.join(public, 'index.html'));
 });
 
 app.get('/stripe-key', (req, res) => {
-    res.send({ publicKey: process.env.STRIPE_PK });
+    res.send({ publicKey: process.env.STRIPE_PUBLIC });
 });
 
 const generateResponse = (intent) => {
